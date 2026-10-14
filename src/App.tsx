@@ -14,17 +14,22 @@ export function App() {
   const [isDark, setIsDark] = useState<boolean>(false);
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
-  const [currentPath, setCurrentPath] = useState<string>(
-    typeof window !== 'undefined' ? window.location.pathname : '/'
-  );
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    if (typeof window === 'undefined') return '/';
+    return (window.location.pathname + window.location.hash).toLowerCase();
+  });
 
   useEffect(() => {
-    const handlePopState = () => {
-      setCurrentPath(window.location.pathname);
+    const handleLocationChange = () => {
+      setCurrentPath((window.location.pathname + window.location.hash).toLowerCase());
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -75,13 +80,12 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Check if current URL is the dedicated editor CMS route (/cms or /editor)
+  // Check if current URL is the dedicated editor CMS route (/cms, /editor, #cms, #editor)
   const isCmsRoute =
-    currentPath === '/cms' ||
-    currentPath === '/cms/' ||
-    currentPath === '/editor' ||
-    currentPath === '/editor/' ||
-    currentPath.startsWith('/cms');
+    currentPath.startsWith('/cms') ||
+    currentPath.startsWith('/editor') ||
+    currentPath.includes('#cms') ||
+    currentPath.includes('#editor');
 
   if (isCmsRoute) {
     return (
