@@ -411,6 +411,19 @@ export const CrestmarkHero: React.FC<CrestmarkHeroProps> = ({
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               </div>
+
+              <div className="mt-3 text-center">
+                <a
+                  href="#cms"
+                  onClick={() => {
+                    setPortalOpen(false);
+                    window.location.hash = '#cms';
+                  }}
+                  className="text-[11px] opacity-65 hover:opacity-100 hover:text-[#00B876] transition-colors inline-flex items-center gap-1"
+                >
+                  Looking for the Editorial Desk? Access CMS Portal &rarr;
+                </a>
+              </div>
             </motion.div>
           </motion.div>
         )}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      // Single Page App redirect for GitHub Pages
+      // Preserves paths like /cms, /editor or deep links on static hosts
+      (function () {
+        var path = window.location.pathname;
+        var cleanPath = path.replace(/^\/GABS-AM/i, '').replace(/^\//, '');
+        var hash = window.location.hash || '';
+        if (cleanPath.startsWith('cms') || cleanPath.startsWith('editor')) {
+          window.location.replace(window.location.origin + window.location.pathname.replace(/\/cms.*|\/editor.*/, '') + '/#cms');
+        } else {
+          window.location.replace(window.location.origin + '/#' + cleanPath + hash);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to application...</p>
+  </body>
+</html>

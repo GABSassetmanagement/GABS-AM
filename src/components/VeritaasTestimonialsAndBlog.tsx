@@ -9,6 +9,7 @@ import {
   X,
   Clock,
   Calendar,
+  Edit3,
 } from 'lucide-react';
 import {
   BLOG_ARTICLES,
@@ -35,26 +36,55 @@ export const VeritaasTestimonialsAndBlog: React.FC<
   );
   const [allArticlesOpen, setAllArticlesOpen] = useState<boolean>(false);
 
-  // Fetch live articles from CMS backend
+  // Fetch live articles from CMS backend or localStorage (for GitHub Pages static hosts)
   useEffect(() => {
     let isMounted = true;
     const fetchArticles = async () => {
+      // Check cached/custom articles from local CMS storage first
+      try {
+        const cached = localStorage.getItem('gabs_cms_articles');
+        if (cached && isMounted) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setArticles(parsed);
+          }
+        }
+      } catch {
+        // ignore
+      }
+
       try {
         const res = await fetch('/api/articles');
         if (res.ok) {
           const data = await res.json();
           if (isMounted && data.articles && Array.isArray(data.articles)) {
             setArticles(data.articles);
+            localStorage.setItem('gabs_cms_articles', JSON.stringify(data.articles));
           }
         }
       } catch (err) {
-        console.warn('Could not fetch articles from CMS:', err);
+        console.warn('Could not fetch articles from server CMS, using cached articles:', err);
       }
     };
 
     fetchArticles();
+
+    // Synchronize if user edited articles in CMS in another tab or route
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'gabs_cms_articles' && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (Array.isArray(parsed)) setArticles(parsed);
+        } catch {
+          // ignore
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+
     return () => {
       isMounted = false;
+      window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
 
@@ -213,6 +243,22 @@ export const VeritaasTestimonialsAndBlog: React.FC<
               <span>Read More Blogs</span>
               <ArrowUpRight className="w-4 h-4" />
             </button>
+
+            <a
+              href="#cms"
+              onClick={() => {
+                window.location.hash = '#cms';
+              }}
+              className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-crest-ui font-semibold border transition-all cursor-pointer whitespace-nowrap shadow-sm ${
+                isDark
+                  ? 'border-white/20 bg-[#111927] text-white hover:bg-[#00B876] hover:text-[#060B14] hover:border-[#00B876]'
+                  : 'border-black/15 bg-white text-[#0B1320] hover:bg-[#0D51B2] hover:text-white hover:border-[#0D51B2]'
+              }`}
+              title="Open Editorial Desk CMS to write, edit, and publish articles"
+            >
+              <Edit3 className="w-4 h-4 text-[#00B876]" />
+              <span>Editorial CMS</span>
+            </a>
           </div>
         </RevealOnScroll>
 
@@ -451,14 +497,27 @@ export const VeritaasTestimonialsAndBlog: React.FC<
                     All Research, Blogs &amp; Market Articles
                   </h2>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setAllArticlesOpen(false)}
-                  aria-label="Close blog hub"
-                  className="w-10 h-10 rounded-full border border-current/20 flex items-center justify-center hover:bg-current/10 cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="#cms"
+                    onClick={() => {
+                      setAllArticlesOpen(false);
+                      window.location.hash = '#cms';
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border border-current/20 hover:border-[#00B876] hover:text-[#00B876] transition-colors"
+                  >
+                    <Edit3 className="w-3.5 h-3.5 text-[#00B876]" />
+                    <span>Editorial CMS</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setAllArticlesOpen(false)}
+                    aria-label="Close blog hub"
+                    className="w-10 h-10 rounded-full border border-current/20 flex items-center justify-center hover:bg-current/10 cursor-pointer"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-6">

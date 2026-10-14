@@ -1316,11 +1316,15 @@ export const VeritaasFaqContactFooter: React.FC<
                   </a>
                   <span aria-hidden="true">·</span>
                   <a
-                    href="/cms"
-                    className="hover:text-white transition-colors opacity-70 hover:opacity-100"
+                    href="#cms"
+                    onClick={() => {
+                      window.location.hash = '#cms';
+                    }}
+                    className="hover:text-white transition-colors opacity-85 hover:opacity-100 inline-flex items-center gap-1.5"
                     title="Editor CMS Portal"
                   >
-                    Editorial CMS
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00B876] inline-block" />
+                    <span>Editorial CMS</span>
                   </a>
                 </div>
               </div>

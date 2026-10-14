@@ -75,17 +75,23 @@ export function App() {
   };
 
   const handleNavigateToPublicSite = () => {
-    window.history.pushState({}, '', '/');
-    setCurrentPath('/');
+    const base = window.location.pathname.replace(/\/(cms|editor).*$/i, '') || '/';
+    window.history.pushState({}, '', base);
+    window.location.hash = '';
+    setCurrentPath(base.toLowerCase());
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Check if current URL is the dedicated editor CMS route (/cms, /editor, #cms, #editor)
+  // Robust CMS route detection that works on custom domains, GitHub Pages (/GABS-AM/), hashes (#cms), and query params (?cms)
   const isCmsRoute =
-    currentPath.startsWith('/cms') ||
-    currentPath.startsWith('/editor') ||
+    currentPath.includes('/cms') ||
     currentPath.includes('#cms') ||
-    currentPath.includes('#editor');
+    currentPath.includes('/editor') ||
+    currentPath.includes('#editor') ||
+    (typeof window !== 'undefined' && (
+      window.location.search.toLowerCase().includes('cms') ||
+      window.location.search.toLowerCase().includes('editor')
+    ));
 
   if (isCmsRoute) {
     return (
