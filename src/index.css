@@ -1,0 +1,135 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-display: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html {
+    scroll-padding-top: 152px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+/* Crestmark Exact Configured Typography Scale */
+.text-crest-hero {
+  font-size: clamp(76px, 12.2vw, 184px);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+}
+
+.text-crest-h2 {
+  font-size: clamp(40px, 4vw, 48px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.text-crest-h3 {
+  font-size: clamp(24px, 2.5vw, 32px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.text-crest-body {
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.65;
+}
+
+.text-crest-ui {
+  font-size: 14.5px;
+  line-height: 1.4;
+}
+
+.text-crest-caption {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* IntersectionObserver Reveal Classes */
+.io-reveal {
+  opacity: 0;
+  transform: translate3d(0, 36px, 0) scale(0.985);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.io-reveal.io-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.io-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.io-word.io-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 34s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+  .io-reveal,
+  .io-word {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Custom scrollbar for sleek institutional look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0f18;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0D51B2;
+}

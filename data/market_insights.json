@@ -1,0 +1,80 @@
+{
+  "lastUpdated": "2026-10-14T19:43:22.568Z",
+  "lastUpdatedFormatted": "14 Oct 2026, 20:43 WAT",
+  "sources": [
+    "Nigerian Exchange Group (NGX)",
+    "Securities & Exchange Commission (SEC)",
+    "Central Bank of Nigeria (CBN)",
+    "Debt Management Office (DMO)",
+    "Financial Markets Desk"
+  ],
+  "isDailySynced": true,
+  "items": [
+    {
+      "id": "ngx-capital-mobilization-2026",
+      "category": "Capital Markets",
+      "title": "NGX Facilitates Over ₦13.6 Trillion in FGN Bonds and Corporate Debt Listings",
+      "summary": "The Nigerian Exchange Group accelerated capital formation with over ₦10.84 trillion mobilized through Federal Government Bonds and ₦2.76 trillion in corporate listings across commercial papers and equities, advancing toward a ₦300 trillion market capitalization target.",
+      "source": "NGX Group / Financial Markets Desk",
+      "sourceUrl": "https://ngxgroup.com",
+      "date": "October 2026",
+      "statBadge": "₦13.6T+ Mobilized",
+      "implication": "Robust primary market activity provides institutional and private wealth investors with high-grade corporate debt and prime yield opportunities."
+    },
+    {
+      "id": "sec-portfolio-management-rules",
+      "category": "SEC Regulations",
+      "title": "SEC Enforces Enhanced Rules for Fund & Portfolio Management Operations",
+      "summary": "The Securities and Exchange Commission (SEC) Nigeria enacted comprehensive amendments to regulations governing portfolio managers. New guidelines mandate segregated custody, strict mitigation of conflict-of-interest, and retail investor capital protection strictly in SEC-sanctioned instruments.",
+      "source": "Securities & Exchange Commission (SEC) Nigeria",
+      "sourceUrl": "https://sec.gov.ng",
+      "date": "Effective Late 2026",
+      "statBadge": "SEC Supervised",
+      "implication": "Validates GABS Financial’s licensed, custodial-grade architecture, ensuring investor principal remains insulated and strictly held in permissible asset classes."
+    },
+    {
+      "id": "cbn-treasury-bills-yields",
+      "category": "Fixed Income & CBN",
+      "title": "Nigerian Treasury Bills 364-Day Stop Rates Anchor at 15.85% – 17.35% Range",
+      "summary": "Central Bank of Nigeria (CBN) Open Market Operations and NTB auctions maintained strong institutional demand with 364-day stop rates around 15.85% (effective annualized true yield near 19% under discount pricing), with substantial oversubscription on long tenors.",
+      "source": "Central Bank of Nigeria / Debt Management Office",
+      "sourceUrl": "https://cbn.gov.ng",
+      "date": "October 2026",
+      "statBadge": "~19% True Yield",
+      "implication": "Underpins competitive rates on GABS Fixed Income and GABS Time Classic structured deposits for wealth preservation."
+    },
+    {
+      "id": "imf-worldbank-gdp-outlook",
+      "category": "Macro & Growth",
+      "title": "IMF & World Bank Project Nigeria’s Economic Expansion at 4.2% – 4.3%",
+      "summary": "Macroeconomic forecasts from multilateral lenders project Nigerian GDP growth accelerating to 4.2% in 2026 and 4.3% in 2027, propelled by key fiscal reforms, enhanced foreign exchange liquidity, and 65 strategic national investment pipelines totaling $78.5 billion.",
+      "source": "World Bank & IMF Sub-Saharan Africa Monitor",
+      "sourceUrl": "https://www.worldbank.org",
+      "date": "2026 Economic Outlook",
+      "statBadge": "4.2% GDP Forecast",
+      "implication": "Provides a constructive multi-year economic runway for strategic equity, alternative asset deployment, and structured private wealth growth."
+    },
+    {
+      "id": "banking-recapitalization-ngx-invest",
+      "category": "Capital Markets",
+      "title": "Banking Recapitalization: NGX Invest Digital Channel Powers ₦2.8T Inflows",
+      "summary": "The Central Bank banking recapitalization exercise reached a pivotal milestone as NGX Invest digital platform routed over 60% of all public offers and rights issues across 33 tier-1 and tier-2 deposit money institutions.",
+      "source": "Capital Market Operators Association / NGX",
+      "sourceUrl": "https://ngxgroup.com",
+      "date": "Financial Sector Review",
+      "statBadge": "₦2.8T Digital Volume",
+      "implication": "Deepens capital market liquidity and creates attractive hybrid instruments for institutional portfolio asset managers."
+    },
+    {
+      "id": "sustainability-reporting-standards",
+      "category": "SEC Regulations",
+      "title": "FRC & SEC Issue Roadmap for IFRS S1 & S2 Sustainability Governance",
+      "summary": "Nigeria leads continental corporate transparency with an official regulatory timeline requiring public companies and SEC-licensed managers to integrate climate, sustainability, and rigorous ESG disclosures into governance reporting.",
+      "source": "Financial Reporting Council of Nigeria / SEC",
+      "sourceUrl": "https://sec.gov.ng",
+      "date": "Regulatory Directive",
+      "statBadge": "IFRS S1 & S2",
+      "implication": "Reinforces GABS Financial’s fifth core pillar: Sustainable Wealth, prioritizing long-term stability and resilient capital allocation."
+    }
+  ]
+}

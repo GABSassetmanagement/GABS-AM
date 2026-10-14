@@ -1,0 +1,8 @@
+{
+  "name": "Remix GABS Financial",
+  "description": "Licensed fund and portfolio management company in Nigeria delivering innovative investment solutions, fixed income, and wealth creation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
