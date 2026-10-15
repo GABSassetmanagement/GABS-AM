@@ -7,6 +7,7 @@ import {
   ScrollTextReveal,
   TiltCutawayCard,
 } from './InteractiveEffects';
+import { getAssetUrl } from '../utils/assets';
 
 interface VeritaasLeadershipSectionProps {
   isDark: boolean;
@@ -121,11 +122,18 @@ export const VeritaasLeadershipSection: React.FC<
                 {/* Executive Portrait Container */}
                 <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-200 dark:bg-neutral-800">
                   <img
-                    src={person.imageUrl}
+                    src={getAssetUrl(person.imageUrl)}
                     alt={`${person.name} — ${person.role}`}
                     referrerPolicy="no-referrer"
                     loading="lazy"
                     decoding="async"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.dataset.triedFallback) {
+                        target.dataset.triedFallback = '1';
+                        target.src = '.' + person.imageUrl;
+                      }
+                    }}
                     className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
                   />
                   <div
@@ -206,9 +214,16 @@ export const VeritaasLeadershipSection: React.FC<
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-current/10">
                 <div className="flex items-center gap-5">
                   <img
-                    src={selectedLeader.imageUrl}
+                    src={getAssetUrl(selectedLeader.imageUrl)}
                     alt={selectedLeader.name}
                     referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.dataset.triedFallback) {
+                        target.dataset.triedFallback = '1';
+                        target.src = '.' + selectedLeader.imageUrl;
+                      }
+                    }}
                     className="w-20 h-24 sm:w-24 sm:h-28 rounded-xl object-cover object-top border border-current/10 shrink-0"
                   />
                   <div>

@@ -4,6 +4,7 @@ import { ArrowDown, Sun, Moon, Menu, X, Lock, ShieldCheck, ArrowUpRight } from '
 import { GabsLogo } from './GabsLogo';
 import { NgxStickyTicker } from './NgxStickyTicker';
 import { RevealOnScroll } from './InteractiveEffects';
+import { getAssetUrl } from '../utils/assets';
 
 interface CrestmarkHeroProps {
   isDark: boolean;
@@ -223,15 +224,19 @@ export const CrestmarkHero: React.FC<CrestmarkHeroProps> = ({
         >
           <div className="w-full h-full bg-neutral-900">
             <img
-              src="/images/hero_coins_calculator_growth_1791593740301.jpg"
+              src={getAssetUrl('images/hero_coins_calculator_growth_1791593740301.jpg')}
               alt="Stacks of golden coins on a financial calculator symbolizing wealth growth"
               referrerPolicy="no-referrer"
               fetchPriority="high"
               decoding="async"
               onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                if (!target.src.includes('Hero.jpg')) {
-                  target.src = '/Hero.jpg';
+                const target = e.currentTarget;
+                if (!target.dataset.triedFallback) {
+                  target.dataset.triedFallback = '1';
+                  target.src = getAssetUrl('Hero.jpg');
+                } else if (target.dataset.triedFallback === '1') {
+                  target.dataset.triedFallback = '2';
+                  target.src = './Hero.jpg';
                 }
               }}
               className="w-full h-full object-cover object-center opacity-100"

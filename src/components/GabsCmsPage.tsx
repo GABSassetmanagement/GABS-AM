@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { GabsLogo } from './GabsLogo';
 import { BlogArticle, BLOG_ARTICLES } from '../data/gabsData';
+import { getAssetUrl } from '../utils/assets';
 
 interface GabsCmsPageProps {
   isDark: boolean;
@@ -773,8 +774,15 @@ export const GabsCmsPage: React.FC<GabsCmsPageProps> = ({
                   <div className="space-y-4">
                     <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-neutral-900">
                       <img
-                        src={art.imageUrl}
+                        src={getAssetUrl(art.imageUrl)}
                         alt={art.title}
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (!target.dataset.triedFallback) {
+                            target.dataset.triedFallback = '1';
+                            target.src = '.' + art.imageUrl;
+                          }
+                        }}
                         className="w-full h-full object-cover"
                       />
                       <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md text-xs font-semibold bg-[#0A0F18]/85 text-white backdrop-blur-md">
@@ -1026,8 +1034,15 @@ export const GabsCmsPage: React.FC<GabsCmsPageProps> = ({
                     >
                       <div className="aspect-[16/10] w-full rounded-lg overflow-hidden bg-neutral-900">
                         <img
-                          src={img.url}
+                          src={getAssetUrl(img.url)}
                           alt={img.name}
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            if (!target.dataset.triedFallback) {
+                              target.dataset.triedFallback = '1';
+                              target.src = '.' + img.url;
+                            }
+                          }}
                           className="w-full h-full object-cover"
                         />
                       </div>

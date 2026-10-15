@@ -21,6 +21,7 @@ import {
   ScrollTextReveal,
   TiltCutawayCard,
 } from './InteractiveEffects';
+import { getAssetUrl } from '../utils/assets';
 
 interface VeritaasTestimonialsAndBlogProps {
   isDark: boolean;
@@ -343,15 +344,19 @@ export const VeritaasTestimonialsAndBlog: React.FC<
                   {/* Article Cover Image */}
                   <div className="relative aspect-[16/10] w-full overflow-hidden rounded-t-2xl bg-neutral-900">
                     <img
-                      src={article.imageUrl}
+                      src={getAssetUrl(article.imageUrl)}
                       alt={article.title}
                       referrerPolicy="no-referrer"
                       loading="lazy"
                       decoding="async"
                       onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        if (!target.src.includes('blog_fixed_income_treasury')) {
-                          target.src = '/images/blog_fixed_income_treasury_1791591200706.jpg';
+                        const target = e.currentTarget;
+                        if (!target.dataset.triedFallback) {
+                          target.dataset.triedFallback = '1';
+                          target.src = getAssetUrl('images/blog_fixed_income_treasury_1791591200706.jpg');
+                        } else if (target.dataset.triedFallback === '1') {
+                          target.dataset.triedFallback = '2';
+                          target.src = '.' + article.imageUrl;
                         }
                       }}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -437,8 +442,18 @@ export const VeritaasTestimonialsAndBlog: React.FC<
             >
               <div className="relative aspect-[16/8] w-full overflow-hidden bg-neutral-900">
                 <img
-                  src={selectedArticle.imageUrl}
+                  src={getAssetUrl(selectedArticle.imageUrl)}
                   alt={selectedArticle.title}
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = '1';
+                      target.src = getAssetUrl('images/blog_fixed_income_treasury_1791591200706.jpg');
+                    } else if (target.dataset.triedFallback === '1') {
+                      target.dataset.triedFallback = '2';
+                      target.src = '.' + selectedArticle.imageUrl;
+                    }
+                  }}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />

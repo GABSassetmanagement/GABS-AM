@@ -17,6 +17,7 @@ import {
 import { FAQ_ITEMS } from '../data/gabsData';
 import { GabsLogo } from './GabsLogo';
 import { RevealOnScroll, ScrollTextReveal } from './InteractiveEffects';
+import { getAssetUrl } from '../utils/assets';
 
 interface VeritaasFaqContactFooterProps {
   isDark: boolean;
@@ -1091,15 +1092,19 @@ export const VeritaasFaqContactFooter: React.FC<
         {/* Background Sunset Skyline Through Tall Architectural Window Mullions + Readable Contrast Tint */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/images/cta_window_skyline_sunset_1791131913090.jpg"
+            src={getAssetUrl('images/cta_window_skyline_sunset_1791131913090.jpg')}
             alt="Golden sunset skyline viewed through tall executive boardroom windows"
             referrerPolicy="no-referrer"
             loading="lazy"
             decoding="async"
             onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              if (!target.src.includes('Hero.jpg')) {
-                target.src = '/Hero.jpg';
+              const target = e.currentTarget;
+              if (!target.dataset.triedFallback) {
+                target.dataset.triedFallback = '1';
+                target.src = getAssetUrl('Hero.jpg');
+              } else if (target.dataset.triedFallback === '1') {
+                target.dataset.triedFallback = '2';
+                target.src = './Hero.jpg';
               }
             }}
             className="w-full h-full object-cover object-center opacity-100"

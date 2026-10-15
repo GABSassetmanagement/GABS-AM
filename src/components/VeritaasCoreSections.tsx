@@ -16,6 +16,7 @@ import {
   ScrollRotatingSeal,
   AnimatedCounter,
 } from './InteractiveEffects';
+import { getAssetUrl } from '../utils/assets';
 
 interface VeritaasCoreSectionsProps {
   isDark: boolean;
@@ -108,15 +109,19 @@ export const VeritaasCoreSections: React.FC<VeritaasCoreSectionsProps> = ({
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-neutral-900">
                 <img
-                  src="/frontdesk.jpg"
+                  src={getAssetUrl('frontdesk.jpg')}
                   alt="GABS Financial Front Desk and Executive Reception in Abuja"
                   referrerPolicy="no-referrer"
                   loading="lazy"
                   decoding="async"
                   onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    if (!target.src.includes('gabs_frontdesk_office_edited')) {
-                      target.src = '/images/gabs_frontdesk_office_edited_1791593750887.jpg';
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = '1';
+                      target.src = getAssetUrl('images/gabs_frontdesk_office_edited_1791593750887.jpg');
+                    } else if (target.dataset.triedFallback === '1') {
+                      target.dataset.triedFallback = '2';
+                      target.src = './frontdesk.jpg';
                     }
                   }}
                   className="w-full h-full object-cover object-center brightness-[1.03] contrast-[1.04] saturate-[1.05] transition-transform duration-500 group-hover:scale-105"
