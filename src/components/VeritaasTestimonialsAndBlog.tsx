@@ -30,11 +30,23 @@ export const VeritaasTestimonialsAndBlog: React.FC<
   VeritaasTestimonialsAndBlogProps
 > = ({ isDark }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
+  const testimonialSliderRef = useRef<HTMLDivElement>(null);
+  const [activeTestimonialIdx, setActiveTestimonialIdx] = useState(0);
   const [articles, setArticles] = useState<BlogArticle[]>(BLOG_ARTICLES);
   const [selectedArticle, setSelectedArticle] = useState<BlogArticle | null>(
     null
   );
   const [allArticlesOpen, setAllArticlesOpen] = useState<boolean>(false);
+
+  const handleSlideTestimonial = (direction: 'left' | 'right') => {
+    if (testimonialSliderRef.current) {
+      const scrollAmount = 480;
+      testimonialSliderRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   // Fetch live articles from CMS backend or localStorage (for GitHub Pages static hosts)
   useEffect(() => {
@@ -104,12 +116,12 @@ export const VeritaasTestimonialsAndBlog: React.FC<
         isDark ? 'bg-[#0A0F18] text-[#F8FAFC]' : 'bg-[#F6F6F2] text-[#0B1320]'
       }`}
     >
-      {/* SECTION 1: CLIENT TESTIMONIALS (Text-Only, No Images, Authentic Nigerian Names) */}
+      {/* SECTION 1: CLIENT TESTIMONIALS (Horizontal Slider with Left/Right Controls) */}
       <section
         id="testimonials"
         className="max-w-[1380px] mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28 border-b border-current/10"
       >
-        <RevealOnScroll className="flex flex-col lg:flex-row lg:items-end justify-between mb-14 gap-6">
+        <RevealOnScroll className="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-6">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2.5">
               <span
@@ -126,57 +138,118 @@ export const VeritaasTestimonialsAndBlog: React.FC<
               className="font-display font-bold text-crest-h2"
             />
           </div>
-          <p className="text-crest-body opacity-75 max-w-md">
-            Enduring partnerships built on capital preservation, regulatory
-            integrity, and consistent investment performance.
-          </p>
+          
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 lg:self-end">
+            <p className="text-crest-body opacity-75 max-w-md hidden sm:block">
+              Enduring partnerships built on capital preservation, regulatory
+              integrity, and consistent investment performance.
+            </p>
+            {/* Horizontal Slider Controls */}
+            <div className="flex items-center gap-2.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => handleSlideTestimonial('left')}
+                aria-label="Slide testimonials left"
+                title="Previous testimonial"
+                className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B876] ${
+                  isDark
+                    ? 'border-white/20 bg-[#111927] text-white hover:bg-[#00B876] hover:text-[#060B14] hover:border-[#00B876]'
+                    : 'border-black/15 bg-white text-[#0B1320] hover:bg-[#0D51B2] hover:text-white hover:border-[#0D51B2]'
+                }`}
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSlideTestimonial('right')}
+                aria-label="Slide testimonials right"
+                title="Next testimonial"
+                className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B876] ${
+                  isDark
+                    ? 'border-white/20 bg-[#111927] text-white hover:bg-[#00B876] hover:text-[#060B14] hover:border-[#00B876]'
+                    : 'border-black/15 bg-white text-[#0B1320] hover:bg-[#0D51B2] hover:text-white hover:border-[#0D51B2]'
+                }`}
+              >
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
         </RevealOnScroll>
 
-        {/* 2x2 Editorial Grid of Text-Only Testimonials with Nigerian Names */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        {/* Horizontal Slider of Testimonial Cards */}
+        <div
+          ref={testimonialSliderRef}
+          className="flex gap-6 sm:gap-8 overflow-x-auto snap-x snap-mandatory pb-6 pt-2 scroll-smooth"
+          style={{ scrollbarWidth: 'thin' }}
+        >
           {NIGERIAN_TESTIMONIALS.map((item, idx) => (
-            <TiltCutawayCard
+            <div
               key={item.id}
-              delayMs={idx * 90}
-              className={`rounded-2xl border p-7 sm:p-9 flex flex-col justify-between transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-[1.015] hover:shadow-xl ${
-                isDark
-                  ? 'border-white/10 bg-[#111927] hover:border-[#00B876]/40'
-                  : 'border-black/10 bg-white hover:border-[#0D51B2]/40'
-              }`}
+              className="snap-start shrink-0 w-[88vw] sm:w-[500px] lg:w-[560px]"
             >
-              <div className="space-y-5">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#0D51B2]/15 text-[#0D51B2] dark:bg-[#00B876]/15 dark:text-[#00B876] flex items-center justify-center">
-                    <Quote className="w-5 h-5" />
+              <TiltCutawayCard
+                delayMs={idx * 70}
+                className={`h-full rounded-2xl border p-7 sm:p-9 flex flex-col justify-between transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-[1.01] hover:shadow-xl ${
+                  isDark
+                    ? 'border-white/10 bg-[#111927] hover:border-[#00B876]/40'
+                    : 'border-black/10 bg-white hover:border-[#0D51B2]/40'
+                }`}
+              >
+                <div className="space-y-5">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-[#0D51B2]/15 text-[#0D51B2] dark:bg-[#00B876]/15 dark:text-[#00B876] flex items-center justify-center">
+                      <Quote className="w-5 h-5" />
+                    </div>
+                    <span className="text-crest-caption font-semibold px-3 py-1 rounded-full bg-[#00B876]/15 text-[#00B876]">
+                      {item.productTag}
+                    </span>
                   </div>
-                  <span className="text-crest-caption font-semibold px-3 py-1 rounded-full bg-[#00B876]/15 text-[#00B876]">
-                    {item.productTag}
+
+                  <blockquote className="text-crest-body sm:text-lg leading-relaxed opacity-90">
+                    “{item.quote}”
+                  </blockquote>
+                </div>
+
+                {/* Nigerian Client Attribution */}
+                <div className="mt-8 pt-5 border-t border-current/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <div
+                      className="font-display font-bold text-lg sm:text-xl text-[#0D51B2] dark:text-white"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      {item.name}
+                    </div>
+                    <div className="text-crest-caption opacity-70">
+                      {item.role}
+                    </div>
+                  </div>
+                  <span className="text-crest-caption font-semibold opacity-60">
+                    {item.location}
                   </span>
                 </div>
+              </TiltCutawayCard>
+            </div>
+          ))}
+        </div>
 
-                <blockquote className="text-crest-body leading-relaxed opacity-90">
-                  “{item.quote}”
-                </blockquote>
-              </div>
-
-              {/* Nigerian Client Attribution (No portrait image per user specification) */}
-              <div className="mt-8 pt-5 border-t border-current/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div>
-                  <div
-                    className="font-display font-bold text-lg sm:text-xl text-[#0D51B2] dark:text-white"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
-                    {item.name}
-                  </div>
-                  <div className="text-crest-caption opacity-70">
-                    {item.role}
-                  </div>
-                </div>
-                <span className="text-crest-caption font-semibold opacity-60">
-                  {item.location}
-                </span>
-              </div>
-            </TiltCutawayCard>
+        {/* Testimonials Dots Indicator */}
+        <div className="flex items-center justify-center gap-2 pt-4">
+          {NIGERIAN_TESTIMONIALS.map((item, idx) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => {
+                if (testimonialSliderRef.current) {
+                  const cardWidth = 520;
+                  testimonialSliderRef.current.scrollTo({
+                    left: idx * cardWidth,
+                    behavior: 'smooth',
+                  });
+                }
+              }}
+              aria-label={`Go to testimonial ${idx + 1}`}
+              className="w-2.5 h-2.5 rounded-full transition-all duration-200 bg-current/25 hover:bg-[#00B876] hover:scale-125 cursor-pointer"
+            />
           ))}
         </div>
       </section>
@@ -204,7 +277,7 @@ export const VeritaasTestimonialsAndBlog: React.FC<
             />
           </div>
 
-          {/* Left & Right Slide Arrow Controls + Desk CMS Button + Read More Blogs Button */}
+          {/* Left & Right Slide Arrow Controls + Read More Blogs Button */}
           <div className="flex flex-wrap items-center gap-3 self-start md:self-end">
             <div className="flex items-center gap-2">
               <button
@@ -243,22 +316,6 @@ export const VeritaasTestimonialsAndBlog: React.FC<
               <span>Read More Blogs</span>
               <ArrowUpRight className="w-4 h-4" />
             </button>
-
-            <a
-              href="#cms"
-              onClick={() => {
-                window.location.hash = '#cms';
-              }}
-              className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-crest-ui font-semibold border transition-all cursor-pointer whitespace-nowrap shadow-sm ${
-                isDark
-                  ? 'border-white/20 bg-[#111927] text-white hover:bg-[#00B876] hover:text-[#060B14] hover:border-[#00B876]'
-                  : 'border-black/15 bg-white text-[#0B1320] hover:bg-[#0D51B2] hover:text-white hover:border-[#0D51B2]'
-              }`}
-              title="Open Editorial Desk CMS to write, edit, and publish articles"
-            >
-              <Edit3 className="w-4 h-4 text-[#00B876]" />
-              <span>Editorial CMS</span>
-            </a>
           </div>
         </RevealOnScroll>
 
@@ -289,6 +346,14 @@ export const VeritaasTestimonialsAndBlog: React.FC<
                       src={article.imageUrl}
                       alt={article.title}
                       referrerPolicy="no-referrer"
+                      loading="lazy"
+                      decoding="async"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        if (!target.src.includes('blog_fixed_income_treasury')) {
+                          target.src = '/images/blog_fixed_income_treasury_1791591200706.jpg';
+                        }
+                      }}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
@@ -497,27 +562,14 @@ export const VeritaasTestimonialsAndBlog: React.FC<
                     All Research, Blogs &amp; Market Articles
                   </h2>
                 </div>
-                <div className="flex items-center gap-2">
-                  <a
-                    href="#cms"
-                    onClick={() => {
-                      setAllArticlesOpen(false);
-                      window.location.hash = '#cms';
-                    }}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border border-current/20 hover:border-[#00B876] hover:text-[#00B876] transition-colors"
-                  >
-                    <Edit3 className="w-3.5 h-3.5 text-[#00B876]" />
-                    <span>Editorial CMS</span>
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => setAllArticlesOpen(false)}
-                    aria-label="Close blog hub"
-                    className="w-10 h-10 rounded-full border border-current/20 flex items-center justify-center hover:bg-current/10 cursor-pointer"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setAllArticlesOpen(false)}
+                  aria-label="Close blog hub"
+                  className="w-10 h-10 rounded-full border border-current/20 flex items-center justify-center hover:bg-current/10 cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-6">

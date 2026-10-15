@@ -14,6 +14,11 @@ import {
   ExternalLink,
   Search,
   Filter,
+  Lock,
+  Unlock,
+  Eye,
+  EyeOff,
+  ShieldCheck,
 } from 'lucide-react';
 import { GabsLogo } from './GabsLogo';
 import { BlogArticle, BLOG_ARTICLES } from '../data/gabsData';
@@ -27,19 +32,19 @@ interface GabsCmsPageProps {
 const PRESET_IMAGES = [
   {
     name: 'Fixed Income & Treasury',
-    url: '/src/assets/images/blog_fixed_income_treasury_1791591200706.jpg',
+    url: '/images/blog_fixed_income_treasury_1791591200706.jpg',
   },
   {
     name: 'Wealth Preservation & Legacy',
-    url: '/src/assets/images/blog_wealth_preservation_strategy_1791591212093.jpg',
+    url: '/images/blog_wealth_preservation_strategy_1791591212093.jpg',
   },
   {
     name: 'SEC Governance & Compliance',
-    url: '/src/assets/images/blog_sec_regulatory_governance_1791591222776.jpg',
+    url: '/images/blog_sec_regulatory_governance_1791591222776.jpg',
   },
   {
     name: 'Corporate Treasury & Liquidity',
-    url: '/src/assets/images/blog_corporate_treasury_liquidity_1791591242605.jpg',
+    url: '/images/blog_corporate_treasury_liquidity_1791591242605.jpg',
   },
   {
     name: 'Executive Office Reception',
@@ -75,6 +80,52 @@ export const GabsCmsPage: React.FC<GabsCmsPageProps> = ({
   onToggleTheme,
   onBackToSite,
 }) => {
+  // Authorized Personnel Authentication Gate
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('gabs_cms_auth') === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const clean = passwordInput.trim();
+    if (
+      clean === 'gabs2026' ||
+      clean === 'gabs@admin' ||
+      clean === 'admin123' ||
+      clean === 'gabs'
+    ) {
+      setIsAuthenticated(true);
+      setPasswordError('');
+      try {
+        sessionStorage.setItem('gabs_cms_auth', 'true');
+      } catch {
+        // ignore
+      }
+    } else {
+      setPasswordError(
+        'Incorrect password. Access is restricted to authorized GABS Financial editorial personnel.'
+      );
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setPasswordInput('');
+    setPasswordError('');
+    try {
+      sessionStorage.removeItem('gabs_cms_auth');
+    } catch {
+      // ignore
+    }
+  };
+
   const [articles, setArticles] = useState<BlogArticle[]>(BLOG_ARTICLES);
   const [activeTab, setActiveTab] = useState<'list' | 'create' | 'edit'>('list');
   const [editingArticleId, setEditingArticleId] = useState<string | null>(null);
@@ -352,6 +403,154 @@ export const GabsCmsPage: React.FC<GabsCmsPageProps> = ({
     return matchesSearch && matchesCat;
   });
 
+  if (!isAuthenticated) {
+    return (
+      <div
+        className={`min-h-screen w-full flex flex-col justify-between transition-colors duration-300 ${
+          isDark ? 'bg-[#090E17] text-[#F8FAFC]' : 'bg-[#F4F4F0] text-[#0B1320]'
+        }`}
+      >
+        {/* Top Header */}
+        <header
+          className={`w-full border-b backdrop-blur-md px-5 sm:px-8 py-4 flex items-center justify-between ${
+            isDark ? 'bg-[#0E1524]/90 border-white/10' : 'bg-white/95 border-black/10 shadow-sm'
+          }`}
+        >
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={onBackToSite}
+              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-semibold border transition-all cursor-pointer ${
+                isDark
+                  ? 'border-white/20 bg-white/5 hover:bg-white/10 text-white'
+                  : 'border-black/15 bg-black/5 hover:bg-black/10 text-neutral-900'
+              }`}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Public Website</span>
+            </button>
+            <div className="h-6 w-[1px] bg-current/15 hidden sm:block" />
+            <GabsLogo variant={isDark ? 'header-dark' : 'header-light'} size="sm" />
+          </div>
+
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            aria-label="Toggle dark/light theme"
+            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
+              isDark
+                ? 'border-white/15 bg-[#172338] text-white hover:bg-white/10'
+                : 'border-black/15 bg-neutral-100 text-[#0B1320] hover:bg-neutral-200'
+            }`}
+          >
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+        </header>
+
+        {/* Password Gate Card */}
+        <main className="flex-1 flex items-center justify-center p-5 sm:p-8">
+          <div
+            className={`w-full max-w-md rounded-2xl border p-7 sm:p-9 shadow-2xl space-y-6 animate-fade-in ${
+              isDark
+                ? 'bg-[#111927] border-white/15 text-white'
+                : 'bg-white border-black/10 text-[#0B1320]'
+            }`}
+          >
+            <div className="text-center space-y-3">
+              <div className="w-14 h-14 rounded-2xl bg-[#00B876]/15 text-[#00B876] border border-[#00B876]/25 flex items-center justify-center mx-auto shadow-sm">
+                <Lock className="w-7 h-7" />
+              </div>
+              <span className="text-xs font-semibold uppercase tracking-wider text-[#00B876]">
+                Restricted Editorial Desk
+              </span>
+              <h2
+                className="font-display font-bold text-2xl sm:text-3xl"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                CMS Authorization
+              </h2>
+              <p className="text-xs sm:text-sm opacity-75 leading-relaxed">
+                Only authorized GABS Financial personnel are permitted to create, edit, or publish research and blog articles.
+              </p>
+            </div>
+
+            <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <div>
+                <label
+                  htmlFor="cms-password"
+                  className="block text-xs font-semibold uppercase tracking-wider opacity-80 mb-2"
+                >
+                  Enter Access Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="cms-password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={passwordInput}
+                    onChange={(e) => {
+                      setPasswordInput(e.target.value);
+                      if (passwordError) setPasswordError('');
+                    }}
+                    placeholder="Enter editorial password"
+                    autoFocus
+                    required
+                    className={`w-full px-4 py-3 rounded-xl border text-sm pr-11 focus:outline-none focus:ring-2 focus:ring-[#00B876] transition-all ${
+                      isDark
+                        ? 'bg-[#0A0F18] border-white/15 text-white placeholder:text-white/35'
+                        : 'bg-neutral-50 border-black/15 text-neutral-900 placeholder:text-neutral-400'
+                    }`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-60 hover:opacity-100 transition-opacity cursor-pointer p-1"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {passwordError && (
+                <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/25 text-red-500 text-xs flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>{passwordError}</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full py-3 px-5 rounded-xl font-semibold text-sm bg-[#00B876] text-[#060B14] hover:bg-[#009e65] transition-all cursor-pointer shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+              >
+                <Unlock className="w-4 h-4" />
+                <span>Unlock Editorial Desk</span>
+              </button>
+            </form>
+
+            <div className="pt-4 border-t border-current/10 flex items-center justify-between text-xs opacity-65">
+              <span>Security Protected</span>
+              <button
+                type="button"
+                onClick={onBackToSite}
+                className="hover:underline text-[#0D51B2] dark:text-[#00B876] font-medium cursor-pointer"
+              >
+                Return to Site &rarr;
+              </button>
+            </div>
+          </div>
+        </main>
+
+        <footer className="py-4 text-center text-xs opacity-50 border-t border-current/10">
+          © {new Date().getFullYear()} GABS Financial Services Limited · Internal Systems
+        </footer>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`min-h-screen w-full transition-colors duration-300 ${
@@ -408,6 +607,21 @@ export const GabsCmsPage: React.FC<GabsCmsPageProps> = ({
               }`}
             >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              title="Lock Editorial Desk and sign out"
+              aria-label="Lock and sign out"
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border transition-colors cursor-pointer ${
+                isDark
+                  ? 'border-white/15 bg-white/5 hover:bg-red-500/20 hover:text-red-400 hover:border-red-500/30 text-white'
+                  : 'border-black/15 bg-black/5 hover:bg-red-500/10 hover:text-red-600 hover:border-red-500/30 text-neutral-800'
+              }`}
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span>Lock / Sign Out</span>
             </button>
 
             <button

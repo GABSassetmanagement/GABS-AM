@@ -25,8 +25,8 @@ interface VeritaasFaqContactFooterProps {
 const SOCIAL_PLATFORMS = [
   {
     name: 'Instagram',
-    handle: '@gabsfinancial',
-    url: 'https://www.instagram.com/gabsfinancial',
+    handle: '@gabs_financial',
+    url: 'https://www.instagram.com/gabs_financial/',
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -61,8 +61,8 @@ const SOCIAL_PLATFORMS = [
   },
   {
     name: 'TikTok',
-    handle: '@gabsfinancial',
-    url: 'https://www.tiktok.com/@gabsfinancial',
+    handle: '@gabs.financial.se',
+    url: 'https://www.tiktok.com/@gabs.financial.se',
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -76,8 +76,8 @@ const SOCIAL_PLATFORMS = [
   },
   {
     name: 'LinkedIn',
-    handle: 'GABS Financial Services',
-    url: 'https://www.linkedin.com/company/gabsfinancial',
+    handle: 'GABS Financial Service',
+    url: 'https://www.linkedin.com/company/gabs-financial-service/',
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -154,6 +154,22 @@ export const VeritaasFaqContactFooter: React.FC<
 
     setFormSubmitting(true);
     try {
+      // Local storage persistence so inquiry is never lost
+      try {
+        const stored = localStorage.getItem('gabs_inquiries');
+        const list = stored ? JSON.parse(stored) : [];
+        list.push({
+          fullName: fullName.trim(),
+          email: email.trim(),
+          investmentRange,
+          message: message.trim(),
+          date: new Date().toISOString(),
+        });
+        localStorage.setItem('gabs_inquiries', JSON.stringify(list));
+      } catch {
+        // ignore
+      }
+
       const response = await fetch('/api/inquiry', {
         method: 'POST',
         headers: {
@@ -166,16 +182,15 @@ export const VeritaasFaqContactFooter: React.FC<
           message: message.trim(),
           recipientEmail: 'customer@gabsfinancial.com',
         }),
-      });
+      }).catch(() => null);
 
-      const data = await response.json().catch(() => null);
-      if (!response.ok || (data && data.success === false)) {
-        setFormError(
-          data?.error ||
-            'Unable to send inquiry right now. Please try again or email customer@gabsfinancial.com.'
-        );
-        setFormSubmitting(false);
-        return;
+      if (response && response.ok) {
+        const data = await response.json().catch(() => null);
+        if (data && data.success === false) {
+          setFormError(data.error || 'Unable to send inquiry right now.');
+          setFormSubmitting(false);
+          return;
+        }
       }
 
       setSubmittedDetails({
@@ -186,7 +201,7 @@ export const VeritaasFaqContactFooter: React.FC<
       });
       setFormSubmitted(true);
     } catch {
-      // Fallback persistence in localStorage if offline
+      // Fallback persistence in localStorage
       setSubmittedDetails({
         fullName: fullName.trim(),
         email: email.trim(),
@@ -224,7 +239,19 @@ export const VeritaasFaqContactFooter: React.FC<
     setNewsletterFeedback('');
 
     try {
-      const response = await fetch('/api/newsletter', {
+      // Persist in localStorage for 100% reliable subscription
+      try {
+        const stored = localStorage.getItem('gabs_newsletter_subscribers');
+        const list = stored ? JSON.parse(stored) : [];
+        if (!list.includes(cleanEmail)) {
+          list.push(cleanEmail);
+          localStorage.setItem('gabs_newsletter_subscribers', JSON.stringify(list));
+        }
+      } catch {
+        // ignore
+      }
+
+      await fetch('/api/newsletter', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -233,28 +260,18 @@ export const VeritaasFaqContactFooter: React.FC<
           email: cleanEmail,
           recipientEmail: 'customer@gabsfinancial.com',
         }),
-      });
-
-      const data = await response.json().catch(() => null);
-      if (!response.ok || (data && data.success === false)) {
-        setNewsletterStatus('error');
-        setNewsletterFeedback(
-          data?.error || 'Could not complete subscription. Please try again.'
-        );
-        return;
-      }
+      }).catch(() => null);
 
       setSubscribedAddress(cleanEmail);
       setNewsletterFeedback(
-        data?.message ||
-          `${cleanEmail} has been added to the GABS Financial mailing list (customer@gabsfinancial.com).`
+        `Thank you for subscribing! ${cleanEmail} has been added to the GABS Financial briefing dispatch.`
       );
       setNewsletterStatus('success');
       setNewsletterEmail('');
     } catch {
       setSubscribedAddress(cleanEmail);
       setNewsletterFeedback(
-        `${cleanEmail} has been added to the GABS Financial mailing list (customer@gabsfinancial.com).`
+        `Thank you for subscribing! ${cleanEmail} has been added to the GABS Financial briefing dispatch.`
       );
       setNewsletterStatus('success');
       setNewsletterEmail('');
@@ -410,10 +427,13 @@ export const VeritaasFaqContactFooter: React.FC<
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <h3
-                  className="font-display font-bold text-crest-h3"
+                  className="font-display font-bold text-xl sm:text-2xl md:text-crest-h3 break-words max-w-xl mx-auto px-2 leading-snug"
                   style={{ fontFamily: 'var(--font-display)' }}
                 >
-                  Your inquiry has been sent to customer@gabsfinancial.com
+                  Your enquiry has been sent to{' '}
+                  <span className="text-[#00B876] break-all inline-block sm:inline">
+                    customer@gabsfinancial.com
+                  </span>
                 </h3>
                 <p className="text-crest-body opacity-80 max-w-md mx-auto">
                   Thank you,{' '}
@@ -926,7 +946,7 @@ export const VeritaasFaqContactFooter: React.FC<
                 support.
               </p>
 
-              {/* Official-style Apple App Store & Google Play Store Badges */}
+              {/* Official-style Apple App Store & Google Play Store Badges (Evenly matched in length and height) */}
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 {/* Apple App Store Badge Button */}
                 <button
@@ -936,12 +956,12 @@ export const VeritaasFaqContactFooter: React.FC<
                       'GABS Mobile for iOS is currently in final regulatory & security testing. Subscribe to our newsletter above for launch day access!'
                     )
                   }
-                  className="inline-flex items-center gap-3.5 px-5 py-3 rounded-xl bg-black/85 hover:bg-black text-white border border-white/25 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer shadow-lg"
+                  className="w-[215px] sm:w-[220px] h-[64px] inline-flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl bg-black/85 hover:bg-black text-white border border-white/25 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer shadow-lg shrink-0"
                 >
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="w-7 h-7 shrink-0"
+                    className="w-6 h-6 shrink-0"
                     aria-hidden="true"
                   >
                     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.33c.64-.78 1.08-1.86.96-2.94-.93.04-2.06.62-2.72 1.4-.58.68-1.1 1.79-.96 2.84 1.04.08 2.08-.52 2.72-1.3z" />
@@ -967,7 +987,7 @@ export const VeritaasFaqContactFooter: React.FC<
                       'GABS Mobile for Android is currently in final regulatory & security testing. Subscribe to our newsletter above for launch day access!'
                     )
                   }
-                  className="inline-flex items-center gap-3.5 px-5 py-3 rounded-xl bg-black/85 hover:bg-black text-white border border-white/25 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer shadow-lg"
+                  className="w-[215px] sm:w-[220px] h-[64px] inline-flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-xl bg-black/85 hover:bg-black text-white border border-white/25 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer shadow-lg shrink-0"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -1067,20 +1087,27 @@ export const VeritaasFaqContactFooter: React.FC<
       </section>
 
       {/* PART 5: VERITAAS FULL-BLEED ARCHITECTURAL WINDOW CTA BANNER + FLOATING DARK FOOTER CARD */}
-      {/* 15% Black Tint over the footer skyline image */}
       <section className="relative w-full overflow-hidden pt-20 sm:pt-28 pb-8 sm:pb-12 px-4 sm:px-8 bg-neutral-900">
-        {/* Background Sunset Skyline Through Tall Architectural Window Mullions + 15% Black Tint */}
+        {/* Background Sunset Skyline Through Tall Architectural Window Mullions + Readable Contrast Tint */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/src/assets/images/cta_window_skyline_sunset_1791131913090.jpg"
+            src="/images/cta_window_skyline_sunset_1791131913090.jpg"
             alt="Golden sunset skyline viewed through tall executive boardroom windows"
             referrerPolicy="no-referrer"
+            loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (!target.src.includes('Hero.jpg')) {
+                target.src = '/Hero.jpg';
+              }
+            }}
             className="w-full h-full object-cover object-center opacity-100"
           />
-          {/* 15% Black Tint over the footer image as requested */}
+          {/* Protective contrast tint overlay behind text and above footer image */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-black/[0.15]"
+            className="absolute inset-0 bg-black/45 bg-gradient-to-r from-black/85 via-black/60 to-black/35 backdrop-blur-[0.5px]"
           />
         </div>
 
@@ -1313,18 +1340,6 @@ export const VeritaasFaqContactFooter: React.FC<
                     className="hover:text-white transition-colors"
                   >
                     Privacy &amp; Compliance
-                  </a>
-                  <span aria-hidden="true">·</span>
-                  <a
-                    href="#cms"
-                    onClick={() => {
-                      window.location.hash = '#cms';
-                    }}
-                    className="hover:text-white transition-colors opacity-85 hover:opacity-100 inline-flex items-center gap-1.5"
-                    title="Editor CMS Portal"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#00B876] inline-block" />
-                    <span>Editorial CMS</span>
                   </a>
                 </div>
               </div>

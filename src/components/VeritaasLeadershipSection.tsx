@@ -60,11 +60,11 @@ export const VeritaasLeadershipSection: React.FC<
             />
           </div>
 
-          {/* Interactive Filter Controls (14px-15px UI Labels & Navigation) */}
+          {/* Interactive Filter Controls (Mobile responsive, no horizontal spilling) */}
           <div
             role="tablist"
             aria-label="Leadership Category Filter"
-            className={`inline-flex items-center gap-1.5 p-1.5 rounded-xl border self-start lg:self-auto ${
+            className={`w-full sm:w-auto flex flex-row items-center justify-between sm:justify-start gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-xl border max-w-full overflow-hidden ${
               isDark
                 ? 'bg-[#111927] border-white/10'
                 : 'bg-[#E9E9E2] border-black/10'
@@ -75,7 +75,7 @@ export const VeritaasLeadershipSection: React.FC<
               role="tab"
               aria-selected={activeGroup === 'board'}
               onClick={() => setActiveGroup('board')}
-              className={`px-4 py-2.5 rounded-lg text-crest-ui font-semibold transition-all cursor-pointer whitespace-nowrap ${
+              className={`flex-1 sm:flex-initial px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs sm:text-crest-ui font-semibold transition-all cursor-pointer text-center truncate ${
                 activeGroup === 'board'
                   ? 'bg-[#0D51B2] text-white shadow-sm'
                   : 'opacity-75 hover:opacity-100'
@@ -88,7 +88,7 @@ export const VeritaasLeadershipSection: React.FC<
               role="tab"
               aria-selected={activeGroup === 'management'}
               onClick={() => setActiveGroup('management')}
-              className={`px-4 py-2.5 rounded-lg text-crest-ui font-semibold transition-all cursor-pointer whitespace-nowrap ${
+              className={`flex-1 sm:flex-initial px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs sm:text-crest-ui font-semibold transition-all cursor-pointer text-center truncate ${
                 activeGroup === 'management'
                   ? 'bg-[#00B876] text-[#060B14] shadow-sm'
                   : 'opacity-75 hover:opacity-100'
@@ -124,6 +124,8 @@ export const VeritaasLeadershipSection: React.FC<
                     src={person.imageUrl}
                     alt={`${person.name} — ${person.role}`}
                     referrerPolicy="no-referrer"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
                   />
                   <div

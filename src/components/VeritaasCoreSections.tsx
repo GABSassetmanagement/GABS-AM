@@ -111,6 +111,14 @@ export const VeritaasCoreSections: React.FC<VeritaasCoreSectionsProps> = ({
                   src="/frontdesk.jpg"
                   alt="GABS Financial Front Desk and Executive Reception in Abuja"
                   referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (!target.src.includes('gabs_frontdesk_office_edited')) {
+                      target.src = '/images/gabs_frontdesk_office_edited_1791593750887.jpg';
+                    }
+                  }}
                   className="w-full h-full object-cover object-center brightness-[1.03] contrast-[1.04] saturate-[1.05] transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />

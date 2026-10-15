@@ -28,7 +28,146 @@ const INITIAL_PROMPTS = [
   'How is client capital protected?',
   'What is the minimum investment?',
   'Who leads GABS Financial?',
+  'Where is your Abuja office located?',
 ];
+
+function generateLizKnowledgeResponse(query: string): string {
+  const q = query.toLowerCase().trim();
+
+  // Greetings & Identity
+  if (
+    q === 'hi' ||
+    q === 'hello' ||
+    q.startsWith('hi ') ||
+    q.startsWith('hello ') ||
+    q.includes('who are you') ||
+    q.includes('your name') ||
+    q.includes('what is your name') ||
+    q.includes('what are you')
+  ) {
+    return 'Hello! I am Liz, your Virtual Investment & Advisory Specialist at GABS Financial Services Limited. I can assist you with our SEC-licensed portfolio mandates, GABS Time Classic yields, corporate treasury management, account onboarding, and capital protection. How can I help you today?';
+  }
+
+  // GABS Time Classic & Yields
+  if (
+    q.includes('time classic') ||
+    q.includes('yield') ||
+    q.includes('rate') ||
+    q.includes('interest') ||
+    q.includes('tenure') ||
+    q.includes('fixed income') ||
+    q.includes('returns')
+  ) {
+    return 'GABS Time Classic is our flagship fixed-income investment product tailored for capital preservation and high predictable yields:\n\n• Minimum Investment: ₦1,000,000\n• Competitive Yield: 15.0% – 19.5% per annum\n• Flexible Tenures: 90, 180, and 365 days\n• Interest Payment: Paid upfront, quarterly, or upon maturity\n• Backing: SEC-sanctioned commercial papers and high-grade sovereign paper\n\nWould you like to speak with an advisor or submit an inquiry to lock in current rates?';
+  }
+
+  // Minimum Investment
+  if (
+    q.includes('minimum') ||
+    q.includes('how much') ||
+    q.includes('starting') ||
+    q.includes('entry')
+  ) {
+    return 'Our investment thresholds are tailored to both retail and institutional wealth creators:\n\n1. GABS Time Classic (Fixed Income): Minimum of ₦1,000,000\n2. GABS Target Growth (Capital Appreciation): Minimum of ₦250,000\n3. Corporate Treasury & Alternate Investment: Minimum of ₦1,000,000 (bespoke institutional mandates customized up to ₦100M+)\n\nAll funds are held in segregated custodian accounts with Zenith Nominees Limited.';
+  }
+
+  // Target Growth & Equities
+  if (
+    q.includes('target growth') ||
+    q.includes('growth') ||
+    q.includes('equity') ||
+    q.includes('equities') ||
+    q.includes('stock')
+  ) {
+    return 'GABS Target Growth is engineered for medium to long-term capital accumulation:\n\n• Minimum Subscription: ₦250,000\n• Target Return: 14.5% – 17.5% p.a.\n• Strategy: Disciplined allocation across dividend-yielding blue-chip Nigerian equities and resilient fixed income instruments\n• Liquidity: Semi-annual portfolio rebalancing and quarterly performance reports.';
+  }
+
+  // Protection, SEC Regulation, Custodianship & Safety
+  if (
+    q.includes('protect') ||
+    q.includes('safety') ||
+    q.includes('safe') ||
+    q.includes('sec') ||
+    q.includes('regulation') ||
+    q.includes('regulated') ||
+    q.includes('license') ||
+    q.includes('licensed') ||
+    q.includes('custodian') ||
+    q.includes('zenith') ||
+    q.includes('fman') ||
+    q.includes('risk')
+  ) {
+    return 'At GABS Financial, investor security is our foremost institutional pillar:\n\n1. Regulatory Oversight: Fully licensed, regulated, and supervised by the Securities & Exchange Commission (SEC) Nigeria as a Fund/Portfolio Manager.\n2. Asset Segregation: Client funds are strictly ring-fenced and held independently with Zenith Nominees Limited (Custodian).\n3. Industry Standards: Active member of the Fund Managers Association of Nigeria (FMAN).\n4. Compliance & Audit: Robust AML/CFT frameworks and periodic forensic audits overseen by our dedicated compliance committee.';
+  }
+
+  // Leadership, Board & Management
+  if (
+    q.includes('lead') ||
+    q.includes('leader') ||
+    q.includes('board') ||
+    q.includes('management') ||
+    q.includes('director') ||
+    q.includes('ceo') ||
+    q.includes('idika') ||
+    q.includes('bolatito') ||
+    q.includes('team')
+  ) {
+    return 'GABS Financial is stewarded by prominent institutional leaders:\n\n• Board of Directors:\n  - Bolatito Laditan (Chairman)\n  - Idika Uma Kalu (MD/CEO)\n  - Claudius Otegbade (Non-Executive Director)\n  - Aisha Gambo (Non-Executive Director)\n  - Joseph Ajayi (Non-Executive Director)\n\n• Executive Management:\n  - Olubukunola Emmanuel (Head of Business)\n  - Oyelowo Ayodeji (Head of Compliance)\n  - Esther Owolabi, ACA (Acting Head of FINCON)\n  - Stella Tinuola Yakubu (Head of Legal)';
+  }
+
+  // Office Location & Address
+  if (
+    q.includes('address') ||
+    q.includes('office') ||
+    q.includes('location') ||
+    q.includes('abuja') ||
+    q.includes('visit') ||
+    q.includes('where are you')
+  ) {
+    return 'Our corporate headquarters is located at:\n\nGround Floor, Nicon Insurance Building, Central Business District, Abuja, Federal Capital Territory, Nigeria.\n\nOur doors are open Monday through Friday from 8:30 AM to 5:00 PM for private advisory sessions.';
+  }
+
+  // Contact Info & Phone / Email
+  if (
+    q.includes('contact') ||
+    q.includes('phone') ||
+    q.includes('telephone') ||
+    q.includes('call') ||
+    q.includes('email') ||
+    q.includes('reach') ||
+    q.includes('customer service')
+  ) {
+    return 'You can connect directly with our advisory desk:\n\n• Telephone: +234 809 3329 999\n• Email: customer@gabsfinancial.com\n• Office: Ground Floor, Nicon Insurance Building, CBD, Abuja\n• Social Media:\n  - Instagram: @gabs_financial\n  - TikTok: @gabs.financial.se\n  - LinkedIn: GABS Financial Service\n\nOur client response time is typically within 24 hours.';
+  }
+
+  // Account Opening & Onboarding
+  if (
+    q.includes('open') ||
+    q.includes('account') ||
+    q.includes('start') ||
+    q.includes('onboard') ||
+    q.includes('sign up') ||
+    q.includes('register') ||
+    q.includes('document') ||
+    q.includes('requirement')
+  ) {
+    return 'Opening an investment portfolio with GABS Financial is straightforward:\n\nRequired Documents:\n1. Valid Government ID (National ID/NIN, International Passport, or Voter\'s Card)\n2. Proof of Address (Utility bill dated within the last 3 months)\n3. Passport Photograph\n4. Bank Verification Number (BVN)\n\nYou can submit an inquiry via our website contact form or visit our Abuja headquarters to begin onboarding today.';
+  }
+
+  // Corporate Treasury & Alternate Investment
+  if (
+    q.includes('corporate') ||
+    q.includes('treasury') ||
+    q.includes('institution') ||
+    q.includes('alternate') ||
+    q.includes('liquidity')
+  ) {
+    return 'GABS Institutional Treasury & Alternate Investment service helps corporate CFOs and institutional treasurers optimize surplus cash:\n\n• Custom cash-flow matching for tax, dividend, and CAPEX horizons\n• Access to top-tier commercial paper issuances and treasury bills\n• Dedicated institutional relationship management\n• Rigorous credit-screening and transparent periodic accounting.';
+  }
+
+  // General Fallback
+  return `Thank you for asking! GABS Financial Services Limited is an SEC-licensed asset management firm based in Abuja, offering GABS Time Classic (15.0% - 19.5% p.a.), Target Growth, and Institutional Treasury Management.\n\nCould you clarify if you are interested in our investment yields, opening an account, our corporate governance, or speaking directly with an advisor? You can also reach our team at customer@gabsfinancial.com or +234 809 3329 999.`;
+}
 
 export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +177,7 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
     {
       id: 'welcome-1',
       role: 'model',
-      text: 'Welcome to GABS Financial Services Limited. I am your AI Investment & Advisory Specialist. How can I assist you with our SEC-licensed portfolio management, GABS Time Classic, fixed income solutions, or wealth creation strategies today?',
+      text: 'Hello! I am Liz, your Virtual Investment & Advisory Specialist at GABS Financial Services Limited. How can I assist you with GABS Time Classic yields, our SEC-licensed portfolio management, or opening an investment account today?',
       timestamp: 'Just now',
     },
   ]);
@@ -76,24 +215,39 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
     setIsLoading(true);
 
     try {
-      const history = messages.map((m) => ({
-        role: m.role,
-        text: m.text,
-      }));
+      let replyText = '';
 
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text,
-          history,
-        }),
-      });
+      // Try server API first if running in fullstack dev server
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        const history = messages.map((m) => ({
+          role: m.role,
+          text: m.text,
+        }));
 
-      const data = await res.json();
-      const replyText =
-        data.reply ||
-        'Thank you for your inquiry. Our advisory desk can be reached directly at customer@gabsfinancial.com.';
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, history }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+
+        if (res.ok) {
+          const data = await res.json().catch(() => null);
+          if (data && data.reply) {
+            replyText = data.reply;
+          }
+        }
+      } catch {
+        // Fall back to client knowledge engine
+      }
+
+      if (!replyText) {
+        // Use Liz's comprehensive advisory knowledge engine
+        replyText = generateLizKnowledgeResponse(text);
+      }
 
       const botMsg: ChatMessage = {
         id: `bot-${Date.now()}`,
@@ -108,9 +262,9 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
       setMessages((prev) => [...prev, botMsg]);
     } catch {
       const errorMsg: ChatMessage = {
-        id: `bot-err-${Date.now()}`,
+        id: `bot-fallback-${Date.now()}`,
         role: 'model',
-        text: 'I apologize for the interruption. You can contact our advisory desk directly at customer@gabsfinancial.com or +234 810 598 4880.',
+        text: generateLizKnowledgeResponse(text),
         timestamp: 'Just now',
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -124,7 +278,7 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
       {
         id: `welcome-${Date.now()}`,
         role: 'model',
-        text: 'Chat history cleared. How may I assist your investment portfolio or corporate treasury today?',
+        text: 'Chat history cleared. I am Liz, ready to assist your investment portfolio or corporate treasury inquiries.',
         timestamp: 'Just now',
       },
     ]);
@@ -144,15 +298,15 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-[#00B876] animate-pulse" />
-            <span>Chat with GABS AI</span>
+            <span>Chat with Liz</span>
           </div>
         )}
 
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          aria-label={isOpen ? 'Close GABS AI Chat' : 'Open GABS AI Chat'}
-          title="Chat with GABS AI Advisory Agent"
+          aria-label={isOpen ? 'Close Liz Chat' : 'Open Liz Chat Assistant'}
+          title="Chat with Liz — GABS Virtual Advisory Specialist"
           className={`w-14 h-14 rounded-full flex items-center justify-center shadow-2xl border transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B876] hover:scale-105 active:scale-95 ${
             isOpen
               ? isDark
@@ -177,7 +331,7 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="GABS AI Chat Assistant"
+          aria-label="Liz — GABS AI Advisory Assistant"
           className={`fixed bottom-22 sm:bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-32px)] sm:w-[410px] h-[560px] max-h-[82vh] flex flex-col rounded-2xl border shadow-2xl overflow-hidden backdrop-blur-xl transition-all duration-200 animate-in fade-in zoom-in-95 ${
             isDark
               ? 'bg-[#0E1524]/95 border-white/20 text-white'
@@ -193,21 +347,21 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
             }`}
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#00B876] text-[#060B14] flex items-center justify-center font-display font-bold text-sm shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-[#00B876] text-[#060B14] flex items-center justify-center font-display font-bold text-sm shadow-md">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="font-display font-bold text-sm sm:text-base leading-none">
-                    GABS Advisory AI
+                    Liz · GABS Advisory
                   </h3>
                   <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold bg-[#00B876]/20 text-[#00B876] dark:text-[#4ade80] border border-[#00B876]/30">
-                    SEC Regulated Desk
+                    Online
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 text-[11px] opacity-80 mt-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#00B876] animate-pulse" />
-                  <span>Licensed Knowledge · Always Online</span>
+                  <span>SEC Licensed Knowledge Specialist</span>
                 </div>
               </div>
             </div>
@@ -246,8 +400,8 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
                   }`}
                 >
                   {!isUser && (
-                    <div className="w-7 h-7 rounded-lg bg-[#00B876]/15 text-[#00B876] flex items-center justify-center shrink-0 mt-0.5 border border-[#00B876]/20">
-                      <Bot className="w-4 h-4" />
+                    <div className="w-7 h-7 rounded-lg bg-[#00B876]/15 text-[#00B876] flex items-center justify-center shrink-0 mt-0.5 border border-[#00B876]/20 font-bold text-xs">
+                      L
                     </div>
                   )}
 
@@ -262,8 +416,8 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
                   >
                     <p className="whitespace-pre-line">{msg.text}</p>
                     <div
-                      className={`text-[10px] text-right opacity-60 ${
-                        isUser ? 'text-white/70' : ''
+                      className={`text-[10px] tabular-nums ${
+                        isUser ? 'text-white/60 text-right' : 'opacity-50 text-left'
                       }`}
                     >
                       {msg.timestamp}
@@ -271,7 +425,7 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
                   </div>
 
                   {isUser && (
-                    <div className="w-7 h-7 rounded-lg bg-[#0D51B2] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <div className="w-7 h-7 rounded-lg bg-[#0D51B2]/20 text-[#0D51B2] dark:text-[#60A5FA] flex items-center justify-center shrink-0 mt-0.5">
                       <User className="w-4 h-4" />
                     </div>
                   )}
@@ -280,18 +434,21 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
             })}
 
             {isLoading && (
-              <div className="flex items-start gap-2.5">
-                <div className="w-7 h-7 rounded-lg bg-[#00B876]/15 text-[#00B876] flex items-center justify-center shrink-0 mt-0.5 border border-[#00B876]/20">
-                  <Bot className="w-4 h-4" />
+              <div className="flex items-start gap-2.5 justify-start">
+                <div className="w-7 h-7 rounded-lg bg-[#00B876]/15 text-[#00B876] flex items-center justify-center shrink-0 mt-0.5 border border-[#00B876]/20 font-bold text-xs">
+                  L
                 </div>
                 <div
-                  className={`rounded-2xl p-3.5 rounded-bl-none border flex items-center gap-1.5 ${
+                  className={`rounded-2xl rounded-bl-none p-3.5 flex items-center gap-1.5 ${
                     isDark
-                      ? 'bg-[#162136] border-white/10 text-white'
-                      : 'bg-neutral-100 border-black/5 text-neutral-800'
+                      ? 'bg-[#162136] border border-white/10'
+                      : 'bg-neutral-100 border border-black/5'
                   }`}
                 >
-                  <span className="w-2 h-2 rounded-full bg-[#00B876] animate-bounce" />
+                  <span
+                    className="w-2 h-2 rounded-full bg-[#00B876] animate-bounce"
+                    style={{ animationDelay: '0ms' }}
+                  />
                   <span
                     className="w-2 h-2 rounded-full bg-[#00B876] animate-bounce"
                     style={{ animationDelay: '150ms' }}
@@ -329,7 +486,7 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
 
           {/* Quick Contact Bar */}
           <div className="px-4 py-1.5 bg-current/[0.03] border-t border-current/10 flex items-center justify-between text-[11px] shrink-0 opacity-75">
-            <span>Direct Email: customer@gabsfinancial.com</span>
+            <span>Desk: customer@gabsfinancial.com</span>
             <a
               href="#contact"
               onClick={() => setIsOpen(false)}
@@ -352,7 +509,7 @@ export const GabsAiChatbot: React.FC<GabsAiChatbotProps> = ({ isDark }) => {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask anything about GABS Financial..."
+              placeholder="Ask Liz anything about GABS Financial..."
               disabled={isLoading}
               className={`flex-1 px-4 py-2.5 rounded-xl border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#00B876] ${
                 isDark

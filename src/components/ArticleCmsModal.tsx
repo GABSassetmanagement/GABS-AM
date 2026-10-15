@@ -27,19 +27,19 @@ interface ArticleCmsModalProps {
 const PRESET_IMAGES = [
   {
     name: 'Fixed Income & Treasury',
-    url: '/src/assets/images/blog_fixed_income_treasury_1791591200706.jpg',
+    url: '/images/blog_fixed_income_treasury_1791591200706.jpg',
   },
   {
     name: 'Wealth Preservation & Legacy',
-    url: '/src/assets/images/blog_wealth_preservation_strategy_1791591212093.jpg',
+    url: '/images/blog_wealth_preservation_strategy_1791591212093.jpg',
   },
   {
     name: 'SEC Governance & Compliance',
-    url: '/src/assets/images/blog_sec_regulatory_governance_1791591222776.jpg',
+    url: '/images/blog_sec_regulatory_governance_1791591222776.jpg',
   },
   {
     name: 'Corporate Treasury & Liquidity',
-    url: '/src/assets/images/blog_corporate_treasury_liquidity_1791591242605.jpg',
+    url: '/images/blog_corporate_treasury_liquidity_1791591242605.jpg',
   },
   {
     name: 'Executive Office Reception',

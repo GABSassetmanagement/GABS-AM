@@ -223,16 +223,24 @@ export const CrestmarkHero: React.FC<CrestmarkHeroProps> = ({
         >
           <div className="w-full h-full bg-neutral-900">
             <img
-              src="/src/assets/images/hero_coins_calculator_growth_1791593740301.jpg"
+              src="/images/hero_coins_calculator_growth_1791593740301.jpg"
               alt="Stacks of golden coins on a financial calculator symbolizing wealth growth"
               referrerPolicy="no-referrer"
+              fetchPriority="high"
+              decoding="async"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                if (!target.src.includes('Hero.jpg')) {
+                  target.src = '/Hero.jpg';
+                }
+              }}
               className="w-full h-full object-cover object-center opacity-100"
             />
           </div>
-          {/* 15% Black Tint underneath the text but above the image */}
+          {/* Protective contrast tint overlay behind hero text and above image */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 z-10 bg-black/[0.15]"
+            className="absolute inset-0 z-10 bg-black/40 bg-gradient-to-t from-black/80 via-black/45 to-black/30 backdrop-blur-[0.5px]"
           />
         </motion.div>
 
@@ -409,19 +417,6 @@ export const CrestmarkHero: React.FC<CrestmarkHeroProps> = ({
                 >
                   <span>Open an Account</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
-
-              <div className="mt-3 text-center">
-                <a
-                  href="#cms"
-                  onClick={() => {
-                    setPortalOpen(false);
-                    window.location.hash = '#cms';
-                  }}
-                  className="text-[11px] opacity-65 hover:opacity-100 hover:text-[#00B876] transition-colors inline-flex items-center gap-1"
-                >
-                  Looking for the Editorial Desk? Access CMS Portal &rarr;
                 </a>
               </div>
             </motion.div>

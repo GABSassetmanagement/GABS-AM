@@ -566,7 +566,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       'How institutional treasuries and discerning individual investors can lock in predictable, inflation-beating returns across SEC-sanctioned money market instruments.',
     author: 'Idika Uma Kalu',
     authorRole: 'MD/CEO, GABS Financial',
-    imageUrl: '/src/assets/images/blog_fixed_income_treasury_1791591200706.jpg',
+    imageUrl: '/images/blog_fixed_income_treasury_1791591200706.jpg',
     fullContent: [
       'In an evolving macroeconomic environment, capital preservation paired with real yield generation remains the cornerstone of disciplined portfolio management in Nigeria. Fixed income instruments—ranging from sovereign Treasury Bills to investment-grade Commercial Papers—continue to offer compelling risk-adjusted opportunities when structured with precision.',
       'Through GABS Fixed Income and GABS Time Classic, our investment committee rigorously screens corporate issuers and sovereign maturities across 6 to 36-month tenures. By staggering maturity ladders and prioritizing high-grade credit counterparties, investors achieve both liquidity predictability and steady compounding.',
@@ -588,7 +588,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       'A practical blueprint for Nigerian executives, family offices, and entrepreneurs seeking seamless wealth preservation and intergenerational transfer.',
     author: 'Olubukunola Emmanuel',
     authorRole: 'Head of Business, GABS Financial',
-    imageUrl: '/src/assets/images/blog_wealth_preservation_strategy_1791591212093.jpg',
+    imageUrl: '/images/blog_wealth_preservation_strategy_1791591212093.jpg',
     fullContent: [
       'Creating wealth requires entrepreneurial vision; preserving and transferring it across generations demands institutional governance. Many Nigerian families and business founders face value erosion during leadership transitions due to fragmented asset holding structures and lack of formal estate planning.',
       'At GABS Financial Services Limited, our Asset Management mandate integrates portfolio diversification, tax optimization, and bespoke legacy strategies. By ring-fencing core family capital inside regulated fixed-income and equity mandates, families establish clear distribution rules and enduring financial security.',
@@ -610,7 +610,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       'Understanding the institutional safeguards, FMAN standards, and custodian segregation that protect investor portfolios at GABS Financial.',
     author: 'Oyelowo Ayodeji',
     authorRole: 'Head of Compliance, GABS Financial',
-    imageUrl: '/src/assets/images/blog_sec_regulatory_governance_1791591222776.jpg',
+    imageUrl: '/images/blog_sec_regulatory_governance_1791591222776.jpg',
     fullContent: [
       'Before committing capital to any investment manager, the single most important due-diligence question an investor should ask is: How is my principal regulated and safeguarded? In Nigeria, licensing by the Securities and Exchange Commission (SEC) and active membership in the Fund Managers Association of Nigeria (FMAN) establish strict fiduciary accountability.',
       'GABS Financial operates with institutional-grade asset segregation alongside leading custodian partners including Zenith Nominees Limited. This structure guarantees that client assets are held distinctly from corporate operational accounts and deployed strictly in accordance with approved investment mandates.',
@@ -632,7 +632,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       'How CFOs and finance directors transform dormant balance-sheet cash into high-performing, liquid treasury portfolios with GABS Alternate Investment.',
     author: 'Esther Owolabi, ACA',
     authorRole: 'Acting Head of FINCON, GABS Financial',
-    imageUrl: '/src/assets/images/blog_corporate_treasury_liquidity_1791591242605.jpg',
+    imageUrl: '/images/blog_corporate_treasury_liquidity_1791591242605.jpg',
     fullContent: [
       'Holding excess corporate liquidity in zero-or-low-interest current accounts silently erodes purchasing power. Forward-looking CFOs and treasury teams across Abuja and Lagos are increasingly turning to bespoke short-term structured investments to optimize cash-flow cycles.',
       'With GABS Alternate Investment, corporate treasuries gain access to carefully vetted, treasury-backed yield opportunities engineered to match quarterly tax, dividend, or capital-expenditure schedules. Minimum subscriptions starting from NGN 1,000,000 on Time Classic also allow SMEs and growing enterprises to participate in institutional money market yields.',
